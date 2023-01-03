@@ -1,0 +1,218 @@
+<%- include("header") -%>
+    <style>
+        #main-content table th:last-child {
+            width: 245px;
+        }
+
+        td.capitalize {
+            text-transform: capitalize;
+        }
+
+        td {
+            text-align: center
+        }
+    </style>
+    <div id="main-content">
+
+        <h2>Total Records-<span id="stu_count"> <%= students.length %></span></h2>
+
+        <form method="get" action="/home" id="student_filter_form">
+            <table>
+                <tr>
+                    <td><input type="text" placeholder="Enter Name" name="filter_name" id="filter_name"
+                            oninput="get_filtered_students()" /></td>
+                    <td>
+                        <select name="filter_class" id="filter_class" onchange="get_filtered_students()">
+                            <option value="">Select class</option>
+                            <% classes.forEach(function(item){ %>
+                                <option value="<%= item._id %>">
+                                    <%= item.classname %>
+                                </option>
+                                <% }) %>
+
+                        </select>
+                    </td>
+                    <td><input type="text" placeholder="Enter Phone No." name="filter_phone" id="filter_phone"    oninput="get_filtered_students()" /></td>
+                    
+                    <td><input type="date" placeholder="" name="filter_date_from" id="filter_date_from"   oninput="get_filtered_students()">
+                    </td>
+                    <td><input type="date" placeholder="" name="filter_date_to" id="filter_date_to" oninput="get_filtered_students()"></td>
+                    <td>
+                        <select name="order_by_name" id="order_by_name" onchange="get_filtered_students()">
+                            <option value="">Order by Name</option>
+                            <option value="asc">Ascending</option>
+                            <option value="desc">descending</option>
+
+                        </select>
+
+                    </td>
+                    <td>
+                        <select name="order_by_date" id="order_by_date" onchange="get_filtered_students()">
+                            <option value="">Order by date</option>
+                            <option value="asc">Ascending</option>
+                            <option value="desc">descending</option>
+
+                        </select>
+
+                    </td>
+                    <td>
+                        <select name="student_limit" id="student_limit" class="form-control" onchange="get_filtered_students()">
+                            <option value="0">Limit</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+
+                        </select>
+
+                    </td>
+                    <td>
+                        <button onclick="reset_filter()">Reset</button>
+                    </td>
+                </tr>
+
+
+
+
+            </table>
+        </form>
+
+
+        <table cellpadding="7px">
+            <thead>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Class</th>
+                <th>Phone</th>
+                <th>Created</th>
+                <th>Action</th>
+            </thead>
+            <tbody id="student_filtered_data">
+                <% var sr_no=1 %>
+                    <% students.forEach(function(item){ %>
+                        <% var stu_id=item._id; %>
+                            <% var stu_id2=stu_id.toString(); %>
+                                <%=console.log(stu_id2+'kkkk'); %>
+                                    <% var btn_text='Shortlist' ; %>
+                                        <% if(Array.isArray(sid)){%>
+                                            <%if(sid.includes(stu_id2)){ %>
+                                                <% var btn_text='Shortlisted' ; %>
+                                                    <% }else{ %>
+                                                        <% var btn_text='Shortlist' ; %>
+                                                            <% } %>
+                                                                <% } %>
+
+                                                                    <tr>
+                                                                        <td>
+                                                                            <%= sr_no %>
+                                                                        </td>
+                                                                        <td class="capitalize">
+                                                                            <%= item.sname %>
+                                                                        </td>
+                                                                        <td class="capitalize">
+                                                                            <%= item.saddress %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= item.sclass[0].classname %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= item.sphone %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= item.created.toLocaleString("nl-NL",{year:'numeric',
+                                                                                month: '2-digit' , day: '2-digit' , hour: '2-digit', minute: '2-digit', second: '2-digit'}) %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href='edit?id=<%= item._id %>'>Edit</a>
+                                                                            <a
+                                                                                href='delete-inline?id=<%= item._id %>'>Delete</a>
+                                                                      <!--      <a href='#' class='add_shortlist'
+                                                                                data-sid='<%= item._id %>'>
+                                                                                <%= btn_text %>
+                                                                            </a> -->
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% sr_no++ }) %>
+            </tbody>
+        </table>
+
+    </div>
+    </div>
+    </body>
+
+    </html>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        function get_filtered_students() {
+          
+            $.ajax({
+                type: "POST",
+                url: "/getfilteredstudents",
+                data: $("#student_filter_form").serialize(),
+                success: function (data) {
+
+              var stu_data_all = data.split('@@');
+              var stu_data= stu_data_all[0];
+              var stu_count= stu_data_all[1];
+              var student_data = "";
+            if(stu_count >0){
+                    
+                        $("#stu_count").html(" ");
+                        $("#stu_count").html(stu_count);
+                        student_data =stu_data;
+                   
+                }else{
+                    $("#stu_count").html(" ");
+                    $("#stu_count").html(stu_count);
+
+                    student_data += "<tr><td colspan='7'>No Record Found</td></tr>";
+
+                }
+                $("#student_filtered_data").html(student_data);
+                    
+                },
+                error: function (jqXHR, textStatus, err) {
+                    alert('text status ' + textStatus + ', err ' + err)
+                }
+            });
+        }
+
+        function reset_filter(){
+
+            $("#student_filter_form").reset();
+        }
+
+        $(document).ready(function () {
+            console.log(document.cookie);
+            console.log(document.cookie.stu_id);
+            if (document.cookie.length != 0) {
+                var student_id_cookie = document.cookie;
+                var stu_id_arr = student_id_cookie.split('stu_id=');
+                console.log(stu_id_arr);
+                console.log('cook');
+                console.log(stu_id_arr[1]);
+                var student_id = [];
+                student_id.push(stu_id_arr[1]);
+                console.log(student_id);
+            }
+            $(".add_shortlist").click(function () {
+                alert(student_id);
+                var stu_id = $(this).attr('data-sid');
+                alert(stu_id);
+                var student_id
+                if (typeof student_id == 'undefined') {
+                    student_id = [];
+                }
+                student_id.push(stu_id);
+                var stu_id_string = student_id.join();
+                console.log(student_id);
+                console.log(stu_id_string);
+
+                document.cookie = "stu_id=" + stu_id_string + "; max-age=" + 30 * 24 * 60 * 60;
+                console.log(document.cookie);
+                $(this).html('Shortlisted');
+
+            });
+        });
+    </script>

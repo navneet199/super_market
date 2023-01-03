@@ -1,0 +1,27 @@
+<%- include("header") -%>
+<div class="admin-content-container">
+    <h2 class="admin-heading">All Categories</h2>
+    <a class="add-new pull-right" href="add-category">Add New</a>
+    <% if(product_categories.length){ %>
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+            <th>Title</th>
+            <th>Action</th>
+            </thead>
+            <tbody>
+              <% product_categories.forEach(function(product_category){%>
+                <tr>
+                    <td style=" text-transform:capitalize;"><%- product_category.category_name %></td>
+                    <td>
+                        <a href="edit-category?id=<%- product_category._id %>"><i class="fa fa-edit"></i></a>
+                        <a style="margin-left:10px;" class="delete_category" href="javascript:void(0)" data-id="<%- product_category._id %>"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% }else{  %>
+        <div class="not-found">!!! No Category Available !!!</div>
+        <%    }   %>
+</div>
+<%- include("footer") -%>

@@ -1,0 +1,20 @@
+<%- include("header") -%>
+    <div class="admin-content-container">
+        <h3 class="admin-heading">update category</h3>
+                <div class="row">
+                    <!-- Form -->
+                    <form id="updateCategory" class="add-post-form col-md-6" method ="POST">
+                        <input type="hidden" name="cat_id"  id= "cat_id" value="<%- category[0]._id %>">
+                        <div class="form-group">
+                            <label>Category Name</label>
+                            <input type="text" name="cat_name" class="form-control cat_name" value="<%- category[0].category_name %>"  placeholder="Category Name" required />
+                        </div>
+                        <input type="submit" name="sumbit" class="btn add-new" value="Update" />
+                    </form>
+                    <!-- /Form -->
+                </div>
+    </div>
+<%- include("footer") -%>
+          
+   
+

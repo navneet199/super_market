@@ -1,0 +1,51 @@
+<%- include('common/header');-%>
+<link rel="stylesheet" href="../assets/style.css">
+<div id="main-content">
+    <h2>Edit Record</h2>
+    <form class="post-form" action="" method="get">
+        <div class="form-group">
+            <label>Id</label>
+            <input type="text" name="sid" id="hold"/>
+        </div>
+        <input class="submit" type="submit" name="showbtn" onclick="holdvalue()" value="Show" />
+        <script>
+            function holdvalue(){
+                var x = document.getElementById('hold').value;
+                console.log("hold value"+x);
+                document.getElementById('hold').value=x;
+            }
+            </script>
+    </form>
+
+    
+<%	if(student != undefined){  %>
+	
+    <form class="post-form" action="update" method="post">
+        <div class="form-group">
+            <label for="">Name</label>
+            <input type="hidden" name="sid"  value="<%= student[0].sid %>" />
+            <input type="text" name="sname" value="<%= student[0].sname %>" />
+        </div>
+        <div class="form-group">
+            <label>Address</label>
+            <input type="text" name="saddress" value="<%= student[0].saddress %>" />
+        </div>
+        <div class="form-group">
+        <label>Class</label>
+          <select name="sclass">
+              <% item2.forEach(function(item3){ %>
+			  <option value="<%=  item3.cid   %>"><%=  item3.cname   %></option>
+         <% })%>
+			  </select>
+        </div>
+        <div class="form-group">
+            <label>Phone</label>
+            <input type="text" name="sphone" value="<%= item[0].sphone %>" />
+        </div>
+    <input class="submit" type="submit" value="Update"  />
+    </form>
+	<% } %>
+</div>
+</div>
+</body>
+</html>

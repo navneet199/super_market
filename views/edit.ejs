@@ -1,0 +1,40 @@
+<%- include('common/header');-%>
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.capitalize {text-transform:capitalize;}
+</style>
+<div id="main-content">
+    <h2>Update Record</h2>
+	
+    <form class="post-form" action="/update" method="post">
+      <div class="form-group">
+          <label>Name</label>
+          <input type="hidden" name="sid" value = "<%= student[0]._id %>"/>
+          <input class = "capitalize" type="text" name="sname" value = "<%= student[0].sname %>"/>
+      </div>
+      <div class="form-group">
+          <label>Address</label>
+          <input class = "capitalize" type="text" name="saddress" value="<%= student[0].saddress %>"/>
+      </div>
+      <div class="form-group">
+          <label>Class</label>
+          <select name="sclass"> 
+              <% classes.forEach(function(cls){ %>
+              <% console.log(cls._id) %>
+              <% console.log(student[0].sclass) %>
+               <% var isSelected= (student[0].sclass.valueOf()  == cls._id.valueOf()) ? "selected" :" "; %>
+               <% //var isSelected= "selected"; %>
+             <option <%= isSelected %> value='<%= cls._id %>'> <%= cls.classname %></option>
+            <%  })   %>
+			</select>
+      </div>
+      <div class="form-group">
+          <label>Phone</label> 
+          <input type="text" name="sphone" value="<%=student[0].sphone %>"/>
+      </div>
+      <input class="submit" type="submit" value="Update"/>
+    </form>
+	
+</div>
+</body>
+</html>

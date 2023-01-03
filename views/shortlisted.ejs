@@ -1,0 +1,76 @@
+<%- include("header") -%>
+<div id="main-content">
+    <h2>Shortlisted Records</h2>
+	
+    <table cellpadding="7px">
+        <thead>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Class</th>
+        <th>Phone</th>
+        <th>Action</th>
+        </thead>
+        <tbody>
+		<% if(students){ %>
+		<% var sr_no =1 %>
+		<% students.forEach(function(item){ %>
+            <tr >
+                <td><%= sr_no %></td>
+                <td><%= item.sname %></td>
+                <td><%= item.saddress %></td>
+                <td><%= item.sclass %></td>
+                <td><%= item.sphone %></td>
+                <td>
+                    <a href='#'  class='remove_shortlist' data-sid ='<%= item._id %>'>Unshortlist</a>
+                </td>
+            </tr>
+		<% sr_no++ }) %>
+		<%  }else{ %>
+		
+		<td colspan="6">No Record Found</td>
+		
+		<% } %>
+        </tbody>
+    </table>
+	
+</div>
+</div>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ 
+<script>
+$(document).ready(function(){
+console.log(document.cookie);
+var student_id;
+$(".remove_shortlist").click(function() {
+var stu_id = $(this).attr('data-sid');
+
+var stu_id_cookie = document.cookie;
+console.log(stu_id_cookie);
+var stu_id_array = stu_id_cookie.split('stu_id=');
+console.log(stu_id_array);
+var stu_id_arr = stu_id_array[1].split(',');
+//stu_id_arr.push(stu_id_array[1]);
+console.log(stu_id_arr);
+
+ for( var i = 0; i < stu_id_arr.length; i++){ 
+ 
+    
+        if ( stu_id_arr[i] === stu_id) { 
+    
+            stu_id_arr.splice(i, 1); 
+        }
+		}
+
+console.log(stu_id_arr);
+var stu_id_arr_string = stu_id_arr.join(',');
+console.log(stu_id_arr_string);
+
+document.cookie = "stu_id="+stu_id_arr_string+"; max-age=" + 30*24*60*60;
+window.location.href="shortlisted";
+
+});
+   });
+</script>
