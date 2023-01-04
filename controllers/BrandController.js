@@ -1,36 +1,34 @@
-const categories = require('../models/categories');
+//const categories = require('../models/categories');
 const brands = require('../models/brands');
+module.exports.brands = async function (req, res) {
 
-module.exports.categories = async function (req, res) {
+    var product_brands = await brands.find({}).sort({brand_name:'asc'});
+    console.log(product_brands);
 
-    var product_categories = await categories.find({}).sort({category_name:'asc'});
-    console.log(product_categories);
-
-	return res.render('admin/categories',{ product_categories: product_categories});
+	return res.render('admin/brands',{brands: product_brands});
 }
-module.exports.addcategories = function (req, res) {
+module.exports.addbrands = function (req, res) {
 
-	return res.render('admin/add_category');
+	return res.render('admin/add_brand');
 }
-module.exports.editcategories = async function (req, res) {
-   var cat_id = req.query.id;
-    var category = await categories.find({'_id':cat_id});
-    console.log(category);
+module.exports.editbrand = async function (req, res) {
+   var brand_id = req.query.id;
+    var product_brand = await brands.find({'_id':brand_id});
 
-	return res.render('admin/edit_category',{category:category});
+	return res.render('admin/edit_brand',{product_brand:product_brand});
 }
-module.exports.savecategories = async function (req, res) {
-    var category_name = req.body.category_name;
+module.exports.savebrand = async function (req, res) {
+    var brand_name = req.body.brand_name;
     var data = {
-		category_name: category_name
+		brand_name: brand_name
 	}
 
-	var category = await categories.find(data);
-	if (category.length) {
+	var brand = await brands.find(data);
+	if (brand.length) {
 		res.send('duplicate');
 	} else{
 
-		categories.create(data, function (err, small) {
+		brands.create(data, function (err, small) {
 			if (err) {
 				console.log(err);
 			}
@@ -38,25 +36,25 @@ module.exports.savecategories = async function (req, res) {
 		});
 	}
 }
-module.exports.updatecategories = async function (req, res) {
-    var category_name = req.body.cat_name;
-	var cat_id = req.body.cat_id;
+module.exports.updatebrand = async function (req, res) {
+    var brand_name = req.body.brand_name;
+	var brand_id = req.body.brand_id;
     var data = {
-		category_name:category_name
+		brand_name:brand_name
 	}
-	var category = await categories.find(data);
-	if(category.length){
-		res.send('success')
+	var product_brand = await brands.find(data);
+	if(product_brand.length){
+		res.send('duplicate')
 
 	}else{
-		await categories.findByIdAndUpdate(cat_id, data);
+		await brands.findByIdAndUpdate(brand_id, data);
 		res.send('success');
 
 	}
 }
-module.exports.deletecategories =function (req, res) {
-	var cat_id = req.body.delete_id;
-	categories.findByIdAndDelete(cat_id, function (err) {
+module.exports.deletebrand =function (req, res) {
+	var brand_id = req.body.delete_id;
+	brands.findByIdAndDelete(brand_id, function (err) {
 		if (err) {
 			console.log('error deleting');
 			return;

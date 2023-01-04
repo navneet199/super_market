@@ -4,6 +4,7 @@ const app = express();
 const db = require('../config/mongoose');
 const admincontroller = require('../controllers/AdminController');
 const categoriescontroller = require('../controllers/CategoriesController');
+const brandscontroller = require('../controllers/BrandController');
 //const viewadminControllers = require('../controllers/viewadminControllers');
 const { body, validationResult } = require('express-validator');
 var bodyParser=require('body-parser');	
@@ -22,6 +23,16 @@ router.post('/save-category',categoriescontroller.savecategories);
 router.get('/edit-category',categoriescontroller.editcategories); 
 router.post('/update-category',categoriescontroller.updatecategories); 
 router.post('/delete-category',categoriescontroller.deletecategories);
+
+
+router.get('/brands', brandscontroller.brands); 
+router.get('/add-brand', brandscontroller.addbrands); 
+router.post('/save-brand',brandscontroller.savebrand); 
+router.get('/edit-brand',brandscontroller.editbrand); 
+router.post('/update-brand',brandscontroller.updatebrand); 
+router.post('/delete-brand',brandscontroller.deletebrand);
+ 
+
 
 
 module.exports = router;

@@ -5,7 +5,11 @@ const brandsSchema = new mongoose.Schema({
     brand_name:{
         type : String,
         required : true
-    }
+    },
+    created: {
+        type: Date,
+        default: Date.now
+      }
 
 });
 

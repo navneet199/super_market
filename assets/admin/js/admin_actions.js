@@ -93,6 +93,80 @@ $(document).ready(function(){
     });
 
 
+     // add brand
+     $('#createBrand').submit(function(e){
+        e.preventDefault();
+        var title = $('.brand_name').val();
+        if(title == ''){
+            $('#createBrand').prepend('<div class="alert alert-danger">Brand name is Empty.</div>');
+        }else{
+            $.ajax({
+                url: 'save-brand',
+                type: 'post',
+                data: {brand_name:title},
+                success: function(response){
+                    $('.alert').hide();
+                    console.log(response);
+                    var res = response;
+                    if(response){
+                        $('#createBrand').prepend('<div class="alert alert-success">Brand Added Successfully.</div>');
+                        setTimeout(function(){ window.location.href ='brands'; }, 1000);
+                        
+                    }else{
+
+                        $('#createBrand').prepend('<div class="alert alert-danger">There is some error.</div>');
+                    }
+                }
+            })
+        }
+    });
+
+    // update brand
+    $('#updateBrand').submit(function(e){
+        e.preventDefault();
+        var title = $('.brand_name').val();
+        var brand_id = $(".brand_id").val();
+        if(title == ''){
+            $('#updateBrand').prepend('<div class="alert alert-danger">Title Field is Empty.</div>');
+        }else{
+            $.ajax({
+                url: 'update-brand',
+                type: 'post',
+                data: {brand_name:title,brand_id:brand_id},
+                success: function(response){
+                    var res = response;
+                    if(response == 'success'){
+                        $('#updateBrand').prepend('<div class="alert alert-success">Brand Modified Successfully.</div>');
+                        setTimeout(function(){ window.location.href = 'brands'; }, 1000);   
+                    }else if(response == 'duplicate'){
+                        $('#updateBrand').prepend('<div class="alert alert-danger">Brand name must be unique</div>');
+                    }
+                }
+            })
+        }
+    });
+
+     // delete_brand
+     $('.delete_brand').click(function(){
+        var tr = $(this);
+        var id = $(this).data('id');
+        if(confirm('Are you Sure want to delete this')){
+            $.ajax({
+                url: 'delete-brand',
+                type: 'POST',
+                data: {delete_id:id},
+                success: function(response){
+                    if(response == 'success'){
+                        tr.closest('tr').remove();
+                    }
+                }
+            });
+        }
+    });
+
+
+
+
 
 
     $('#adminLogin').submit(function(e){
@@ -492,99 +566,10 @@ $(document).ready(function(){
             })
     });
 
-    // add brand
-    $('#createBrand').submit(function(e){
-        e.preventDefault();
-        $('.alert').hide();
-        var title = $('.brand_name').val();
-        var parent = $('.brand_category option:selected').val();
-        if(title == ''){
-            $('#createBrand').prepend('<div class="alert alert-danger">Title Field is Empty.</div>');
-        }else if(parent == ''){
-            $('#createBrand').prepend('<div class="alert alert-danger">Parent Category Field is Empty.</div>');
-        }else{
-            var formdata = new FormData(this);
-            formdata.append('create','1');
-            $.ajax({
-                url: './php_files/brands.php',
-                type: 'post',
-                data: formdata,
-                processData: false,
-                contentType: false,
-                dataType: 'json',
-                success: function(response){
-                    $('.alert').hide();
-                    console.log(response);
-                    var res = response;
-                    if(res.hasOwnProperty('success')){
-                        $('#createBrand').prepend('<div class="alert alert-success">Brand Added Successfully.</div>');
-                        setTimeout(function(){ window.location = URL+'admin/brands.php'; }, 1000);
-                        
-                    }else if(res.hasOwnProperty('error')){
-                        $('#createBrand').prepend('<div class="alert alert-danger">'+res.error+'</div>');
-                    }
-                }
-            })
-        }
-    });
+   
+    
 
-    // update brand
-    $('#updateBrand').submit(function(e){
-        e.preventDefault();
-        $('.alert').hide();
-        var title = $('.brand_name').val();
-        var parent = $('.brand_category option:selected').val();
-        if(title == ''){
-            $('#updateBrand').prepend('<div class="alert alert-danger">Title Field is Empty.</div>');
-        }else if(parent == ''){
-            $('#updateBrand').prepend('<div class="alert alert-danger">Parent Category Field is Empty.</div>');
-        }else{
-            var formdata = new FormData(this);
-            formdata.append('update','1');
-            $.ajax({
-                url: './php_files/brands.php',
-                type: 'post',
-                data: formdata,
-                processData: false,
-                contentType: false,
-                dataType: 'json',
-                success: function(response){
-                    $('.alert').hide();
-                    var res = response;
-                    if(res.hasOwnProperty('success')){
-                        $('#updateBrand').prepend('<div class="alert alert-success">Brand Modified Successfully.</div>');
-                        setTimeout(function(){ window.location = URL+'admin/brands.php'; }, 1000);
-                        
-                    }else if(res.hasOwnProperty('error')){
-                        $('#updateBrand').prepend('<div class="alert alert-danger">'+res.error+'</div>');
-                    }
-                }
-            })
-        }
-    });
-
-    // delete_brand
-    $('.delete_brand').click(function(){
-        var tr = $(this);
-        var id = $(this).attr('data-id');
-        if(confirm('Are you Sure want to delete this')){
-            $.ajax({
-                url: './php_files/brands.php',
-                type: 'POST',
-                data: {delete_id:id},
-                dataType: 'json',
-                success: function(response){
-                    var res = response;
-                    if(res.hasOwnProperty('success')){
-                        tr.parent().parent('tr').remove();
-                    }else if(res.hasOwnProperty('error')){
-                        alert("You Don't Delete This");
-                    }
-                }
-            });
-        }
-    });
-
+   
     // view user details
     $('.user-view').click(function(e) {
         e.preventDefault();
