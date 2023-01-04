@@ -1,0 +1,48 @@
+[{
+  "_id": {
+    "$oid": "63b5a48760c81cba560e9efe"
+  },
+  "brand_name": "brand",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63b5a4c560c81cba560e9f02"
+  },
+  "brand_name": "brands",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63b5a6019e7da11b1acdd99c"
+  },
+  "brand_name": "asfgh",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63b5a6469d15813d6c5261c0"
+  },
+  "brand_name": "Lakme",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63b5af7539680025b878a039"
+  },
+  "brand_name": "Nokia",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63b5b1f7bea459e116607e05"
+  },
+  "brand_name": "LGsdfgh",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63b5c0f41033dda72b7bf1d1"
+  },
+  "brand_name": "samsung",
+  "created": {
+    "$date": {
+      "$numberLong": "1672855796537"
+    }
+  },
+  "__v": 0
+}]
