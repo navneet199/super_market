@@ -1,6 +1,4 @@
-<?php
-// include header file
-include 'header.php'; ?>
+<%- include("header") -%>
 <div class="admin-content-container">
     <h2 class="admin-heading">Add New Sub Category</h2>
     <div class="row">
@@ -12,17 +10,12 @@ include 'header.php'; ?>
         </div>
         <div class="form-group">
             <label for="">Parent Category</label>
-            <?php
-            $db = new Database();
-            $db->select('categories','*',null,null,null,null);
-            $result = $db->getResult(); ?>
+           
             <select class="form-control parent_cat" name="parent_cat">
                 <option value="" selected disabled>Select Category</option>
-                <?php if (count($result) > 0) {  ?>
-                <?php foreach($result as $row) { ?>
-                    <option value="<?php echo $row['cat_id']; ?>"><?php echo $row['cat_title']; ?></option>
-                <?php } ?>
-                <?php } ?>
+                <% product_categories.forEach(function(item){  %>
+                    <option value = "<%- item._id  %>"><%- item.category_name %></option>
+                <%  }) %>
             </select>
         </div>
         <input type="submit" name="save" class="btn add-new" value="Submit" />
@@ -30,7 +23,4 @@ include 'header.php'; ?>
     <!-- /Form -->
     </div>
 </div>
-<?php
-//    include footer file
-    include "footer.php";
-?>
+<%- include("footer") -%>

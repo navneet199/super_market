@@ -164,10 +164,34 @@ $(document).ready(function(){
         }
     });
 
-
-
-
-
+    $('#createSubCategory').submit(function(e){
+        e.preventDefault();
+        $('.alert').hide();
+        var title = $('.sub_category').val();
+        var category_id = $('.parent_cat option:selected').val();
+        if(title == ''){
+            $('#createSubCategory').prepend('<div class="alert alert-danger">Title Field is Empty.</div>');
+        }else if(parent == ''){
+            $('#createSubCategory').prepend('<div class="alert alert-danger">Parent Category Field is Empty.</div>');
+        }else{
+            var formdata = new FormData(this);
+            formdata.append('create','1');
+            $.ajax({
+                url: 'save-sub-category',
+                type: 'post',
+                data: {sub_category:title,category_id:category_id},
+                success: function(response){
+                    console.log(response);
+                    if(response == 'success'){
+                        $('#createSubCategory').prepend('<div class="alert alert-success">Sub Category Added Successfully.</div>');
+                        setTimeout(function(){ window.location ='sub-categories'; }, 1000);   
+                    }else if(response == 'duplicate'){
+                        $('#createSubCategory').prepend('<div class="alert alert-danger">Sub Category Name must be unique.</div>');
+                    }
+                }
+            })
+        }
+    });
 
     $('#adminLogin').submit(function(e){
         e.preventDefault();
@@ -435,40 +459,7 @@ $(document).ready(function(){
 
 
     // add sub category
-    $('#createSubCategory').submit(function(e){
-        e.preventDefault();
-        $('.alert').hide();
-        var title = $('.sub_category').val();
-        var parent = $('.parent_cat option:selected').val();
-        if(title == ''){
-            $('#createSubCategory').prepend('<div class="alert alert-danger">Title Field is Empty.</div>');
-        }else if(parent == ''){
-            $('#createSubCategory').prepend('<div class="alert alert-danger">Parent Category Field is Empty.</div>');
-        }else{
-            var formdata = new FormData(this);
-            formdata.append('create','1');
-            $.ajax({
-                url: './php_files/sub_category.php',
-                type: 'post',
-                data: formdata,
-                processData: false,
-                contentType: false,
-                dataType: 'json',
-                success: function(response){
-                    $('.alert').hide();
-                    console.log(response);
-                    var res = response;
-                    if(res.hasOwnProperty('success')){
-                        $('#createSubCategory').prepend('<div class="alert alert-success">Sub Category Added Successfully.</div>');
-                        setTimeout(function(){ window.location = URL+'admin/sub_category.php'; }, 1000);
-                        
-                    }else if(res.hasOwnProperty('error')){
-                        $('#createSubCategory').prepend('<div class="alert alert-danger">'+res.error+'</div>');
-                    }
-                }
-            })
-        }
-    });
+    
 
     // update sub category
     $('#updateSubCategory').submit(function(e){
