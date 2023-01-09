@@ -12,29 +12,8 @@ app.use('/assets',express.static('assets'));
 var bodyParser=require('body-parser');	
 var encoder =  bodyParser.urlencoded({extended:true});
 app.use(express.urlencoded({extended:true}))
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use('/',require('./routes'));
-//app.use('/user',require('./routes/users'));
-
-//var db2 = require("../models");
-//const Product = require('./models/Product');
-//const Review = require('../models/Review');
-
-
-
-
-
-app.get("/products", function(req,res) {
-  Product.find({})
-  .then(function(dbProducts) {
-    res.json(dbProducts);
-  })
-  .catch(function(err) {
-    res.json(err);
-  })
-});
-
-
 app.listen(port, function(err){
     if(err)
     {

@@ -3,7 +3,9 @@ $(document).ready(function(){
     var origin = window.location.origin;
     var path = window.location.pathname.split( '/' );
     var URL = origin+'/'+path[1]+'/';
+    path_name = window.location.pathname;
     console.log(window.location.pathname);
+    $("a[href = '"+path_name+"']").parent().addClass('active');
     
     // check user login
     // =======================
@@ -243,10 +245,10 @@ $(document).ready(function(){
         }
     });
 
-    $("#admin-menu ul li").click(function(){
-        alert('hi');
-        $(this).addClass('active').siblings().removeClass('active');
-    })
+    // $("#admin-menu ul li").click(function(){
+    //     alert('hi');
+    //     $(this).addClass('active').siblings().removeClass('active');
+    // })
 
     $('#adminLogin').submit(function(e){
         e.preventDefault();
@@ -309,33 +311,12 @@ $(document).ready(function(){
     $('.product_category').change(function(){
         var id = $('.product_category option:selected').val();
         $.ajax({
-            url    : "./php_files/products.php",
+            url    : "getsubcategories",
             type   : "POST",
-            data   : {p_cat:id},
+            data   : {cat_id:id},
             success: function(response){
-                var res = JSON.parse(response);
-                if(res.hasOwnProperty('sub_category')){
-                    var sub_cat = '<option value="" selected disabled>Select Sub Category</option>';
-                    var sub_cat_length = res.sub_category.length;
-                    for(var i = 0;i<sub_cat_length;i++){
-                        sub_cat += '<option value="'+res.sub_category[i].sub_cat_id+'">'+res.sub_category[i].sub_cat_title+'</option>';
-                    }
-                    $('.product_sub_category').html(sub_cat);
+                    $('.product_sub_category').html(response);
                 }
-                if(res.hasOwnProperty('brands')){
-                    var brand = '<option value="" selected disabled>Select Brand</option>';
-                    var brand_length = res.brands.length;
-                    if(brand_length > 0){
-                        for(var j = 0;j<brand_length;j++){
-                            brand += '<option value="'+res.brands[j].brand_id+'">'+res.brands[j].brand_title+'</option>';
-                        }
-                    }else{
-                        brand = '<option value="" selected disabled>No Brands Found</option>';
-                    }
-                    
-                    $('.product_brands').html(brand);
-                }
-            }
         });
     });
 

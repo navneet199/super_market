@@ -60,17 +60,15 @@
                     <!-- Menu Bar Start -->
                     <div class="col-md-2 col-sm-3" id="admin-menu">
                          <ul class="menu-list">
-                            <li ><a href="admin-dashboard">Dashboard</a></li>
-                            <li <?php if(basename($_SERVER['PHP_SELF']) == "products.php") echo 'class="active"'; ?>><a href="products.php">Products</a></li>
-                            <li <% if(location.pathname == "/categories"){ %> 
-                                <%- "class='active'"; %>
-                                 <% } %> ><a href="categories">Categories</a></li>
-                            <li <?php if(basename($_SERVER['PHP_SELF']) == "sub_category.php") echo 'class="active"'; ?>><a href="sub_category.php">Sub-Categories</a></li>
-                            <li <?php if(basename($_SERVER['PHP_SELF']) == "brands.php") echo 'class="active"'; ?>><a href="brands">Brands</a></li>
-                            <li <?php if(basename($_SERVER['PHP_SELF']) == "orders.php") echo 'class="active"'; ?>><a href="orders">Orders</a></li>
-                            <li <?php if(basename($_SERVER['PHP_SELF']) == "users.php") echo 'class="active"'; ?>><a href="users">Users</a></li>
-                            <li <?php if(basename($_SERVER['PHP_SELF']) == "options.php") echo 'class="active"'; ?>><a href="options">Options</a></li>
-                            <li <?php if(basename($_SERVER['PHP_SELF']) == "options.php") echo 'class="active"'; ?>><a href="options">Activity Log</a></li>
+                            <li ><a href="/admin-dashboard">Dashboard</a></li>
+                            <li ><a href="products.php">Products</a></li>
+                            <li ><a href="/categories">Categories</a></li>
+                            <li ><a href="/sub-categories">Sub-Categories</a></li>
+                            <li ><a href="/brands">Brands</a></li>
+                            <li ><a href="orders">Orders</a></li>
+                            <li ><a href="users">Users</a></li>
+                            <li ><a href="options">Options</a></li>
+                            <li ><a href="options">Activity Log</a></li>
                         </ul>
                     </div>
                     <!-- Menu Bar End -->

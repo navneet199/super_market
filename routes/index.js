@@ -6,7 +6,7 @@ const admincontroller = require('../controllers/AdminController');
 const categoriescontroller = require('../controllers/CategoriesController');
 const subcategoriescontroller = require('../controllers/SubcategoriesController');
 const brandscontroller = require('../controllers/BrandController');
-//const viewadminControllers = require('../controllers/viewadminControllers');
+const productscontroller = require('../controllers/ProductController');
 const { body, validationResult } = require('express-validator');
 var bodyParser=require('body-parser');	
 app.use(express.urlencoded({extended:true}))
@@ -25,13 +25,24 @@ router.get('/edit-category',categoriescontroller.editcategories);
 router.post('/update-category',categoriescontroller.updatecategories); 
 router.post('/delete-category',categoriescontroller.deletecategories);
 
-
 router.get('/brands', brandscontroller.brands); 
 router.get('/add-brand', brandscontroller.addbrands); 
 router.post('/save-brand',brandscontroller.savebrand); 
 router.get('/edit-brand',brandscontroller.editbrand); 
 router.post('/update-brand',brandscontroller.updatebrand);  
 router.post('/delete-brand',brandscontroller.deletebrand);
+
+
+//router.get('/products', productscontroller.products); 
+router.get('/add-product', productscontroller.addproducts); 
+router.post('/getsubcategories', productscontroller.getsubcategories); 
+// router.post('/save-brand',brandscontroller.savebrand); 
+// router.get('/edit-brand',brandscontroller.editbrand); 
+// router.post('/update-brand',brandscontroller.updatebrand);  
+// router.post('/delete-brand',brandscontroller.deletebrand);
+
+
+
 
 router.get('/sub-categories', subcategoriescontroller.subcategories); 
 router.get('/add-sub-category', subcategoriescontroller.addsubcategory); 
