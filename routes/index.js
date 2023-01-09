@@ -35,12 +35,8 @@ router.post('/delete-brand',brandscontroller.deletebrand);
 
 router.get('/sub-categories', subcategoriescontroller.subcategories); 
 router.get('/add-sub-category', subcategoriescontroller.addsubcategory); 
- router.post('/save-sub-category',subcategoriescontroller.savesubcategory); 
- router.get('/edit-sub-category',subcategoriescontroller.editsubcategory); 
-// router.post('/update-brand',brandscontroller.updatebrand); 
-// router.post('/delete-brand',brandscontroller.deletebrand);
- 
-
-
-
+router.post('/save-sub-category',subcategoriescontroller.savesubcategory); 
+router.get('/edit-sub-category',subcategoriescontroller.editsubcategory); 
+router.post('/update-sub-category',subcategoriescontroller.updatesubcategory); 
+router.post('/delete-sub-category',subcategoriescontroller.deletesubcategory);
 module.exports = router;

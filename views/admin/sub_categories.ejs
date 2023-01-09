@@ -7,7 +7,7 @@
             <thead>
             <th>Title</th>
             <th>Category</th>
-            <th>Created At</th>
+            <th>Creation Date</th>
             <th>Show in Header</th>
             <th>Show in Footer</th>
             <th>Action</th>
@@ -34,8 +34,8 @@
                     <?php } ?>
                     </td>
                     <td>
-                        <a href="edit_sub_category.php?id=<?php echo $row['sub_cat_id'];  ?>"><i class="fa fa-edit"></i></a>
-                        <a class="delete_subCategory" href="javascript:void();" data-id="<?php echo $row['sub_cat_id'];  ?>"><i class="fa fa-trash"></i></a>
+                        <a href="edit-sub-category?id=<%- item._id %>"><i class="fa fa-edit"></i></a>
+                        <a style="margin-left: 10px;" class="delete_subCategory" href="javascript:void(0);" data-id="<%- item._id %>"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
             <% }) %>
@@ -45,7 +45,6 @@
         <div class="not-found">!!! No Sub Categories Available !!!</div>
     <%    }  %>
     <div class="pagination-outer">
-        <?php echo $db->pagination('sub_categories','categories ON sub_categories.cat_parent=categories.cat_id',null,$limit); ?>
     </div>
 </div>
 <%- include("footer") -%>

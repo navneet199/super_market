@@ -3,6 +3,7 @@ $(document).ready(function(){
     var origin = window.location.origin;
     var path = window.location.pathname.split( '/' );
     var URL = origin+'/'+path[1]+'/';
+    console.log(window.location.pathname);
     
     // check user login
     // =======================
@@ -192,6 +193,60 @@ $(document).ready(function(){
             })
         }
     });
+
+
+      // update sub category
+      $('#updateSubCategory').submit(function(e){
+        e.preventDefault();
+        var title = $('.sub_category').val();
+        var parent = $('.parent_cat option:selected').val();
+        var sub_cat_id = $("#sub_cat_id").val();
+        if(title == ''){
+            $('#updateSubCategory').prepend('<div class="alert alert-danger">Title Field is Empty.</div>');
+        }else if(parent == ''){
+            $('#updateSubCategory').prepend('<div class="alert alert-danger">Parent Category Field is Empty.</div>');
+        }else{
+            $.ajax({
+                url: 'update-sub-category',
+                type: 'post',
+                data: {sub_category_name:title,category_id:parent,sub_cat_id:sub_cat_id},
+                success: function(response){
+                    console.log(response);
+                    if(response == 'success'){
+                        $('#updateSubCategory').prepend('<div class="alert alert-success">Sub Category Modified Successfully.</div>');
+                        setTimeout(function(){ window.location = 'sub-categories'; }, 1000);    
+                    }else if(response == 'duplicate'){
+                        $('#updateSubCategory').prepend('<div class="alert alert-danger">Subcategory name must be unique</div>');
+                    }
+                }
+            })
+        }
+    });
+
+    // delete sub category
+    $('.delete_subCategory').click(function(){
+        var tr = $(this);
+        var id = $(this).data('id');
+        if(confirm('Are you Sure want to delete this')){
+            $.ajax({
+                url: 'delete-sub-category',
+                type: 'POST',
+                data: {delete_id:id},
+                success: function(response){
+                    if(response == 'success'){
+                        tr.parent().parent('tr').remove();
+                    }else{
+                        alert("You Don't Delete This");
+                    }
+                }
+            });
+        }
+    });
+
+    $("#admin-menu ul li").click(function(){
+        alert('hi');
+        $(this).addClass('active').siblings().removeClass('active');
+    })
 
     $('#adminLogin').submit(function(e){
         e.preventDefault();
@@ -461,62 +516,7 @@ $(document).ready(function(){
     // add sub category
     
 
-    // update sub category
-    $('#updateSubCategory').submit(function(e){
-        e.preventDefault();
-        var title = $('.sub_category').val();
-        var parent = $('.parent_cat option:selected').val();
-        if(title == ''){
-            $('#updateSubCategory').prepend('<div class="alert alert-danger">Title Field is Empty.</div>');
-        }else if(parent == ''){
-            $('#updateSubCategory').prepend('<div class="alert alert-danger">Parent Category Field is Empty.</div>');
-        }else{
-            var formdata = new FormData(this);
-            formdata.append('update','1');
-            $.ajax({
-                url: './php_files/sub_category.php',
-                type: 'post',
-                data: formdata,
-                processData: false,
-                contentType: false,
-                dataType: 'json',
-                success: function(response){
-                    $('.alert').hide();
-                    console.log(response);
-                    var res = response;
-                    if(res.hasOwnProperty('success')){
-                        $('#updateSubCategory').prepend('<div class="alert alert-success">Sub Category Modified Successfully.</div>');
-                        setTimeout(function(){ window.location = URL+'admin/sub_category.php'; }, 1000);
-                        
-                    }else if(res.hasOwnProperty('error')){
-                        $('#updateSubCategory').prepend('<div class="alert alert-danger">'+res.error+'</div>');
-                    }
-                }
-            })
-        }
-    });
-
-    // delete sub category
-    $('.delete_subCategory').click(function(){
-        var tr = $(this);
-        var id = $(this).attr('data-id');
-        if(confirm('Are you Sure want to delete this')){
-            $.ajax({
-                url: './php_files/sub_category.php',
-                type: 'POST',
-                data: {delete_id:id},
-                dataType: 'json',
-                success: function(response){
-                    var res = response;
-                    if(res.hasOwnProperty('success')){
-                        tr.parent().parent('tr').remove();
-                    }else if(res.hasOwnProperty('error')){
-                        alert("You Don't Delete This");
-                    }
-                }
-            });
-        }
-    });
+  
 
     // script for show categories in header
 
