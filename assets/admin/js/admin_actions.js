@@ -4,7 +4,6 @@ $(document).ready(function(){
     var path = window.location.pathname.split( '/' );
     var URL = origin+'/'+path[1]+'/';
     path_name = window.location.pathname;
-    console.log(window.location.pathname);
     $("a[href = '"+path_name+"']").parent().addClass('active');
     
     // check user login
@@ -319,6 +318,7 @@ $(document).ready(function(){
                 }
         });
     });
+    $('.product_category').trigger('change');
 
     // load product image with jquery
     $('.product_image').change(function(){
@@ -328,7 +328,6 @@ $(document).ready(function(){
     // add product
     $('#createProduct').submit(function(e){
         e.preventDefault();
-        $('.alert').hide();
         var title = $('.product_title').val();
         var cat = $('.product_category option:selected').val();
         var sub_cat = $('.product_sub_category option:selected').val();
@@ -355,22 +354,15 @@ $(document).ready(function(){
             var formdata = new FormData(this);
             formdata.append('create',1);
             $.ajax({
-                url    : "./php_files/products.php",
+                url    : "save-product",
                 type   : "POST",
-                data   : formdata,
-                processData: false,
-                contentType: false,
-                dataType: 'json',
+                data   : $('#createProduct').serialize(),
                 success: function(response){
-                    $('.alert').hide();
-                    console.log(response);
-                    var res = response;
-                    if(res.hasOwnProperty('success')){
+                    if(response == 'success'){
                         $('#createProduct').prepend('<div class="alert alert-success">Product Added Successfully.</div>');
-                        setTimeout(function(){ window.location = URL+'admin/products.php'; }, 1000);
-                        
-                    }else if(res.hasOwnProperty('error')){
-                        $('#createProduct').prepend('<div class="alert alert-danger">'+res.error+'</div>');
+                        setTimeout(function(){ window.location = 'products'}, 1000);  
+                    }else if(response == 'duplicate'){
+                        $('#createProduct').prepend('<div class="alert alert-danger">Product name must be unique</div>');
                     }
                 }
             });

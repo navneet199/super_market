@@ -33,11 +33,11 @@ router.post('/update-brand',brandscontroller.updatebrand);
 router.post('/delete-brand',brandscontroller.deletebrand);
 
 
-//router.get('/products', productscontroller.products); 
+router.get('/products', productscontroller.products); 
 router.get('/add-product', productscontroller.addproducts); 
 router.post('/getsubcategories', productscontroller.getsubcategories); 
-// router.post('/save-brand',brandscontroller.savebrand); 
-// router.get('/edit-brand',brandscontroller.editbrand); 
+router.post('/save-product',productscontroller.saveproduct); 
+router.get('/edit-product',productscontroller.editproduct); 
 // router.post('/update-brand',brandscontroller.updatebrand);  
 // router.post('/delete-brand',brandscontroller.deletebrand);
 

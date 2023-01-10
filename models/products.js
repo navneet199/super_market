@@ -7,6 +7,7 @@ const productsSchema = new mongoose.Schema({
         required : true
     },
     product_qty:{
+        type : Number,
         required : true
     },
     product_category:
@@ -18,6 +19,7 @@ const productsSchema = new mongoose.Schema({
         required:true
     },
     status:{
+        type : Number,
         required:true
     },
     product_views:{
@@ -25,7 +27,7 @@ const productsSchema = new mongoose.Schema({
     },
     product_image:{
         type : String,
-        required : true
+       // required : true
 
     },
     product_description:{
