@@ -11,7 +11,7 @@
                     <label for="">Product Category</label>
                     
                     <select class="form-control product_category" name="product_cat">
-                        <option value="" selected disabled>Select Category</option>
+                        <option value="">Select Category</option>
                         <% categories.forEach(function(category){ %>
                             <option value="<%- category._id %>"><%- category.category_name %></option>
                     <%    })  %>
