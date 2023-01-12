@@ -1,4 +1,5 @@
 const express = require('express');
+const multer = require('multer');
 const router = express.Router();
 const app = express();
 const db = require('../config/mongoose');
@@ -13,6 +14,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(bodyParser.json())
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
+
 
 router.get('/admin',admincontroller.home); 
 router.get('/admin-dashboard',admincontroller.admindashboard); 
@@ -38,7 +40,8 @@ router.get('/add-product', productscontroller.addproducts);
 router.post('/getsubcategories', productscontroller.getsubcategories); 
 router.post('/save-product',productscontroller.saveproduct); 
 router.get('/edit-product',productscontroller.editproduct); 
-router.post('/update-product',productscontroller.updateproduct);  
+router.post('/update-product',productscontroller.updateproduct); 
+router.post('/upload-product-image',productscontroller.uploadproductimage);   
 // router.post('/delete-brand',brandscontroller.deletebrand);
 
 

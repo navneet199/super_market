@@ -309,17 +309,20 @@ $(document).ready(function(){
     // show sub categories
     $('.product_category').change(function(){
         var id = $('.product_category option:selected').val();
-        $.ajax({
-            url    : "getsubcategories",
-            type   : "POST",
-            data   : {cat_id:id},
-            success: function(response){
-                    $('.product_sub_category').html(response);
-                    if(typeof product_sub_cat_id != "undefined"){
-                        $("#product_sub_category option[value='"+product_sub_cat_id+"']").attr('selected',true); 
+        if(id !=""){
+            $.ajax({
+                url    : "getsubcategories",
+                type   : "POST",
+                data   : {cat_id:id},
+                success: function(response){
+                        $('.product_sub_category').html(response);
+                        if(typeof product_sub_cat_id != "undefined"){
+                            $("#product_sub_category option[value='"+product_sub_cat_id+"']").attr('selected',true); 
+                        }
                     }
-                }
-        });
+            });
+
+        }    
     });
     $('.product_category').trigger('change');  
 
@@ -354,16 +357,20 @@ $(document).ready(function(){
         }else if(image == ''){
             $('#createProduct').prepend('<div class="alert alert-danger">Image Field is Empty.</div>');
         }else{
-            var formdata = new FormData(this);
-            formdata.append('create',1);
+            // var formdata = new FormData(this);
+            // formdata.append('create',1);
+           // data.image= image;
+
+           let formData = new FormData(); 
+            formData.append("fileupload", featured_img.files[0]);
             $.ajax({
                 url    : "save-product",
                 type   : "POST",
-                data   : $('#createProduct').serialize(),
+                data   : $('#createProduct').serialize()+"&image="+formData,
                 success: function(response){
                     if(response == 'success'){
                         $('#createProduct').prepend('<div class="alert alert-success">Product Added Successfully.</div>');
-                        setTimeout(function(){ window.location = 'products'}, 1000);  
+                      //  setTimeout(function(){ window.location = 'products'}, 1000);  
                     }else if(response == 'duplicate'){
                         $('#createProduct').prepend('<div class="alert alert-danger">Product name must be unique</div>');
                     }
@@ -372,6 +379,31 @@ $(document).ready(function(){
         }
 
     });
+    //upload product image
+
+    $(".product_image").change(function(){
+
+        var file = $(".product_image")[0].files[0];
+        var formData = new FormData();
+        formData.append("product_image", file);
+        console.log(formData);
+    
+        $.ajax({
+          url: 'upload-product-image',
+          type: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false,
+          successs: function() {
+            console.log('success');
+          },
+          error: function() {
+            console.log('error');
+          }
+        })
+
+        alert('hi');
+    })
 
     // update product
     $('#updateProduct').submit(function(e){

@@ -2,6 +2,17 @@ const categories = require('../models/categories');
 const subcategories = require('../models/sub_categories');
 const brands = require('../models/brands');
 const products = require('../models/products');
+const multer = require('multer');
+var storage =   multer.diskStorage({
+    destination: function (req, file, callback) {
+      callback(null, './uploads');
+    },
+    filename: function (req, file, callback) {
+      callback(null, file.originalname);
+    }
+  });
+  
+  var upload = multer({ storage : storage}).single('product_image');
 
 module.exports.products = async function (req, res) {
 
@@ -61,34 +72,28 @@ module.exports.saveproduct = async function(req, res){
     if (product.length) {
         	res.send('duplicate');
         } else{
+           
     products.create(data, function (err, small) {
         		if (err) {
         			console.log(err);
         		}
         		res.send('success');
         	});
-        }
-    //res.send('success');
-
-
-    // var category_name = req.body.category_name;
-    // var data = {
-	// 	category_name: category_name
-	// }
-
-	// var category = await categories.find(data);
-	// if (category.length) {
-	// 	res.send('duplicate');
-	// } else{
-
-	// 	categories.create(data, function (err, small) {
-	// 		if (err) {
-	// 			console.log(err);
-	// 		}
-	// 		res.send('success');
-	// 	});
-	// }
 }
+
+}       
+module.exports.uploadproductimage =async function(req, res){
+
+    console.log('uploading');
+    upload(req,res,function(err) {
+        if(err) {
+            return res.end("Error uploading file.");
+        }
+        res.end("File is uploaded");
+    });
+    //res.send('success');
+}
+
 module.exports.updateproduct = async function (req, res) {
     var product_id = req.body.product_id;
     var product_title = req.body.product_title;
