@@ -309,16 +309,22 @@ $(document).ready(function(){
     // show sub categories
     $('.product_category').change(function(){
         var id = $('.product_category option:selected').val();
-        $.ajax({
-            url    : "getsubcategories",
-            type   : "POST",
-            data   : {cat_id:id},
-            success: function(response){
-                    $('.product_sub_category').html(response);
-                }
-        });
+        if(id !=""){
+            $.ajax({
+                url    : "getsubcategories",
+                type   : "POST",
+                data   : {cat_id:id},
+                success: function(response){
+                        $('.product_sub_category').html(response);
+                        if(typeof product_sub_cat_id != "undefined"){
+                            $("#product_sub_category option[value='"+product_sub_cat_id+"']").attr('selected',true); 
+                        }
+                    }
+            });
+
+        }    
     });
-    $('.product_category').trigger('change');
+    $('.product_category').trigger('change');  
 
     // load product image with jquery
     $('.product_image').change(function(){
@@ -351,16 +357,20 @@ $(document).ready(function(){
         }else if(image == ''){
             $('#createProduct').prepend('<div class="alert alert-danger">Image Field is Empty.</div>');
         }else{
-            var formdata = new FormData(this);
-            formdata.append('create',1);
+            // var formdata = new FormData(this);
+            // formdata.append('create',1);
+           // data.image= image;
+
+           let formData = new FormData(); 
+            formData.append("fileupload", featured_img.files[0]);
             $.ajax({
                 url    : "save-product",
                 type   : "POST",
-                data   : $('#createProduct').serialize(),
+                data   : $('#createProduct').serialize()+"&image="+formData,
                 success: function(response){
                     if(response == 'success'){
                         $('#createProduct').prepend('<div class="alert alert-success">Product Added Successfully.</div>');
-                        setTimeout(function(){ window.location = 'products'}, 1000);  
+                      //  setTimeout(function(){ window.location = 'products'}, 1000);  
                     }else if(response == 'duplicate'){
                         $('#createProduct').prepend('<div class="alert alert-danger">Product name must be unique</div>');
                     }
@@ -369,11 +379,35 @@ $(document).ready(function(){
         }
 
     });
+    //upload product image
+
+    $(".product_image").change(function(){
+
+        var file = $(".product_image")[0].files[0];
+        var formData = new FormData();
+        formData.append("product_image", file);
+        console.log(formData);
+    
+        $.ajax({
+          url: 'upload-product-image',
+          type: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false,
+          successs: function() {
+            console.log('success');
+          },
+          error: function() {
+            console.log('error');
+          }
+        })
+
+        alert('hi');
+    })
 
     // update product
     $('#updateProduct').submit(function(e){
         e.preventDefault();
-        $('.alert').hide();
         var title = $('.product_title').val();
         var cat = $('.product_category option:selected').val();
         var sub_cat = $('.product_sub_category option:selected').val();
@@ -398,25 +432,17 @@ $(document).ready(function(){
         }else if(image == '' && old_image == ''){
             $('#updateProduct').prepend('<div class="alert alert-danger">Image Field is Empty.</div>');
         }else{
-            var formdata = new FormData(this);
-            formdata.append('update',1);
+
             $.ajax({
-                url    : "./php_files/products.php",
+                url    : "update-product",
                 type   : "POST",
-                data   : formdata,
-                processData: false,
-                contentType: false,
-                dataType: 'json',
+                data   : $("#updateProduct").serialize(),
                 success: function(response){
-                    $('.alert').hide();
-                    console.log(response);
-                    var res = response;
-                    if(res.hasOwnProperty('success')){
+                    if(response == 'success'){
                         $('#updateProduct').prepend('<div class="alert alert-success">Product Added Successfully.</div>');
-                        setTimeout(function(){ window.location = URL+'admin/products.php'; }, 1000);
-                        
-                    }else if(res.hasOwnProperty('error')){
-                        $('#updateProduct').prepend('<div class="alert alert-danger">'+res.error+'</div>');
+                        setTimeout(function(){ window.location = 'products'; }, 1000);  
+                    }else if(response == 'duplicate'){
+                        $('#updateProduct').prepend('<div class="alert alert-danger">Product name must be unique</div>');
                     }
                 }
             });

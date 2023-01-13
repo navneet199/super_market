@@ -1,11 +1,15 @@
 <%- include('header') -%>
+<script>
+    var product_sub_cat_id = "<%-product[0].product_sub_cat.valueOf() %>";
+    
+</script>
 <div class="admin-content-container">
     <h2 class="admin-heading">Edit Product</h2>
             <form id="updateProduct" class="add-post-form row" method="post" enctype="multipart/form-data">
                 <div class="col-md-9">
                     <div class="form-group">
                         <label for="">Product Title</label>
-                        <input type="hidden" name="product_id" value="<?php echo $row['product_id']; ?>"/>
+                        <input type="hidden" name="product_id" value="<%- product[0]._id %>"/>
                         <input type="text" class="form-control product_title" name="product_title"
                                value="<%- product[0].product_name %>" placeholder="Product Title"/>
                     </div>
@@ -24,25 +28,21 @@
                     </div>
                     <div class="form-group sub_category">
                         <label for="">Product Sub-Category</label>
-                        <select class="form-control product_sub_category" name="product_sub_cat">
-                            <?php foreach($result3 as $row3) {
-                                if($row['product_sub_cat'] == $row3['sub_cat_id']){ ?>
-                                    <option selected value="<?php echo $row3['sub_cat_id']; ?>"><?php echo $row3['sub_cat_title']; ?></option>
-                        <?php   }else{ ?>
-                                    <option value="<?php echo $row3['sub_cat_id']; ?>"><?php echo $row3['sub_cat_title']; ?></option>
-                            <?php    }
-                            } ?>
+                        <select class="form-control product_sub_category" name="product_sub_cat" id="product_sub_category">
                         </select>
-                        <?php } ?>
                     </div>
                     <div class="form-group brand">
                         <label for="">Product Brand</label>
                         <select class="form-control product_brands" name="product_brand">
                             <option value="">Select Brand</option>
                             <% brands.forEach(function(brand){   %>
-                                    <option value="<?php echo $row4['brand_id']; ?>"><%- brand.brand_name %></option>
+                                <% var selected = ""; %>
+                                <% if(product[0].product_brand.valueOf() == brand._id){  %>
+                                    <% selected = "selected"; %>
+                                <% } %>
+                                    <option <%- selected %>  value="<%- brand._id %>" ><%- brand.brand_name %></option>
                                 
-                             <%   }) %>
+                            <%   }) %>
                         </select>
                        
                     </div>
@@ -56,7 +56,7 @@
                     <div class="form-group">
                         <label for="">Featured Image</label>
                         <input type="file" class="product_image" name="new_image">
-                        <input type="hidden" class="old_image" name="old_image" value="<?php echo $row['featured_image']; ?>">
+                        <input type="hidden" class="old_image" name="old_image" value="test">
                         <img id="image" src="../product-images/<?php echo $row['featured_image']; ?>" alt="" width="100px"/>
                     </div>
                     <div class="form-group">
@@ -79,9 +79,6 @@
                     </div>
                 </div>
             </form>
-        <?php
-        }
-    }
-    ?>
 </div>
+
 <%- include('footer') -%>
