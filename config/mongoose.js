@@ -4,6 +4,7 @@ const db = mongoose.connection;  //acquire the connection
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log('Success db connection');
+  console.log('deployed on live servergit');
 });
 
 
