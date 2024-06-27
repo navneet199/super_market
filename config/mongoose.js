@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-//mongoose.connect("mongodb+srv://nk28814:l1QuWbk20w1NNf9T@cluster0.kl3mjkr.mongodb.net/?appName=Cluster0");  //connect db
-mongoose.connect("mongodb://localhost:27017/super_market");  //connect db
+mongoose.connect("mongodb+srv://nk28814:l1QuWbk20w1NNf9T@cluster0.kl3mjkr.mongodb.net/?appName=Cluster0");  //connect db
+//mongoose.connect("mongodb://localhost:27017/super_market");  //connect db
 
 const db = mongoose.connection;  //acquire the connection
 db.on('error', console.error.bind(console, 'connection error:'));
