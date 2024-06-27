@@ -4,6 +4,7 @@ const subcategories = require('../models/sub_categories');
 module.exports.subcategories = async function (req, res) {
 
     var product_subcategories = await subcategories.find({}).populate('category_id').sort({sub_category:'asc'});
+	console.log(product_subcategories);
 	return res.render('admin/sub_categories',{ product_subcategories: product_subcategories});
 }
 module.exports.addsubcategory = async function (req, res) {

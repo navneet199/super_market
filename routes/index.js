@@ -20,7 +20,7 @@ router.get('/admin',admincontroller.home);
 router.get('/admin-dashboard',admincontroller.admindashboard); 
 router.get('/users',admincontroller.users); 
 
-router.get('/admin/categories',categoriescontroller.categories); 
+router.get('/categories',categoriescontroller.categories); 
 router.get('/add-category',categoriescontroller.addcategories); 
 router.post('/save-category',categoriescontroller.savecategories); 
 router.get('/edit-category',categoriescontroller.editcategories); 
